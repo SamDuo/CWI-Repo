@@ -1,0 +1,84 @@
+:root {
+  --bg: #f7f5f0;          /* warm off-white */
+  --panel: #ffffff;
+  --ink: #1b2733;         /* deep slate */
+  --muted: #5f6b76;
+  --line: #e7e2d8;        /* warm hairline */
+  --teal: #2f8f83;        /* "wellbeing" primary */
+  --teal-deep: #1f6f66;
+  --clay: #b4574e;        /* low end */
+  --shadow: 0 1px 2px rgba(27,39,51,.05), 0 14px 30px -16px rgba(27,39,51,.20);
+  /* 5-class diverging ramp: clay (low) → cream (mid) → teal (high) */
+  --c0: #b4574e; --c1: #e0a96d; --c2: #efe6d2; --c3: #7bb5a9; --c4: #2f8f83;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: "Public Sans", system-ui, sans-serif;
+  color: var(--ink); background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+#app { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+
+/* ── Sidebar ── */
+#panel {
+  width: 380px; flex: none; height: 100%; overflow-y: auto;
+  background: var(--panel); border-right: 1px solid var(--line);
+  padding: 22px 22px 14px; display: flex; flex-direction: column; gap: 18px;
+}
+.kicker { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--teal-deep); }
+.brand h1 { font-size: 25px; line-height: 1.1; font-weight: 800; margin: 4px 0 6px; letter-spacing: -.01em; }
+.brand .sub { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+.control { display: flex; flex-direction: column; gap: 6px; }
+.control label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+#metric {
+  font: inherit; font-weight: 600; font-size: 14px; color: var(--ink);
+  padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff;
+  appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%235f6b76' stroke-width='2'%3E%3Cpath d='M3 5l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+#metric:focus { outline: none; border-color: var(--teal); }
+
+/* ── Legend ── */
+.legend-title { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.legend-title span { color: var(--ink); font-weight: 700; }
+#legend-scale { display: flex; height: 12px; border-radius: 6px; overflow: hidden; }
+#legend-scale > div { flex: 1; }
+.legend-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+/* ── Detail report card ── */
+.detail { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: #fffdf9; box-shadow: var(--shadow); }
+.detail.hidden { display: none; }
+.detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.detail-head h2 { margin: 3px 0 0; font-size: 18px; font-weight: 800; }
+.d-score { text-align: right; line-height: 1; }
+.d-score span { font-size: 30px; font-weight: 800; color: var(--teal-deep); }
+.d-score small { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+.domains { display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
+.drow { display: grid; grid-template-columns: 92px 1fr 30px; align-items: center; gap: 8px; }
+.drow .dl { font-size: 12px; color: var(--ink); }
+.drow .dbar { height: 7px; background: #efeae0; border-radius: 4px; overflow: hidden; }
+.drow .dbar > i { display: block; height: 100%; border-radius: 4px; background: var(--teal); }
+.drow .dv { font-size: 12px; font-weight: 700; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.d-foot { margin-top: 12px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 9px; }
+
+.foot { margin-top: auto; }
+.stat { font-size: 12px; color: var(--ink); margin-bottom: 6px; }
+.stat b { color: var(--teal-deep); }
+.note { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+/* ── Map ── */
+#map { flex: 1; height: 100%; }
+.maplibregl-ctrl-attrib { font-size: 10px; }
+
+.tooltip {
+  position: fixed; pointer-events: none; z-index: 5;
+  background: #fff; border: 1px solid var(--line); border-radius: 10px;
+  padding: 7px 10px; box-shadow: var(--shadow); font-size: 12px;
+  transform: translate(-50%, calc(-100% - 12px));
+}
+.tooltip.hidden { display: none; }
+.tooltip b { font-weight: 800; }
+.tooltip .tt-cwi { color: var(--teal-deep); font-weight: 800; }
