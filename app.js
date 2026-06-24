@@ -1,7 +1,22 @@
 /* Portsmouth Community Wellness Index — MapLibre dashboard (tract level).
-   No API key (CARTO Positron basemap). Loads data/tracts.geojson. */
+   No API key (CARTO basemap). Loads data/tracts.geojson.
+   3 design directions via ?theme=warm|gov|dark (for stakeholder review). */
 
-const RAMP = ["#b4574e", "#e0a96d", "#efe6d2", "#7bb5a9", "#2f8f83"];
+const THEMES = {
+  // A — Civic Warm: community-first, approachable
+  warm: { basemap: "light_all", sel: "#1b2733",
+    ramp: ["#b4574e", "#e0a96d", "#efe6d2", "#7bb5a9", "#2f8f83"] },
+  // B — Government Clean: official, trustworthy (USWDS-aligned blues)
+  gov: { basemap: "light_all", sel: "#1b1b1b",
+    ramp: ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"] },
+  // C — Editorial Dark: striking, presentation-forward
+  dark: { basemap: "dark_all", sel: "#eef2f4",
+    ramp: ["#c1666b", "#d9a05b", "#5d6b74", "#4b9e8e", "#5fd0bf"] },
+};
+const THEME = new URLSearchParams(location.search).get("theme") || "warm";
+const T = THEMES[THEME] || THEMES.warm;
+document.body.className = "theme-" + THEME;
+const RAMP = T.ramp;
 
 const METRICS = [
   { key: "cwi", label: "Overall CWI" },
@@ -50,19 +65,16 @@ const map = new maplibregl.Map({
     sources: {
       carto: {
         type: "raster",
-        tiles: [
-          "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-          "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-          "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-          "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-        ],
+        tiles: ["a", "b", "c", "d"].map(
+          (s) => `https://${s}.basemaps.cartocdn.com/${T.basemap}/{z}/{x}/{y}@2x.png`,
+        ),
         tileSize: 256,
         attribution: "© OpenStreetMap contributors © CARTO",
       },
     },
     layers: [
       // warm fallback canvas so the map reads cleanly even before/without tiles
-      { id: "bg", type: "background", paint: { "background-color": "#ece7df" } },
+      { id: "bg", type: "background", paint: { "background-color": THEME === "dark" ? "#10141a" : "#ece7df" } },
       { id: "carto", type: "raster", source: "carto", paint: { "raster-opacity": 0.9 } },
     ],
   },
@@ -98,7 +110,7 @@ map.on("load", async () => {
     id: "sel",
     type: "line",
     source: "tracts",
-    paint: { "line-color": "#1b2733", "line-width": 2.5 },
+    paint: { "line-color": T.sel, "line-width": 2.5 },
     filter: ["==", "GEOID", "__none__"],
   });
 

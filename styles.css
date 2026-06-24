@@ -49,7 +49,8 @@ body {
 .legend-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 5px; }
 
 /* ── Detail report card ── */
-.detail { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: #fffdf9; box-shadow: var(--shadow); }
+.detail { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: var(--panel); box-shadow: var(--shadow); }
+body.theme-warm .detail { background: #fffdf9; }
 .detail.hidden { display: none; }
 .detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .detail-head h2 { margin: 3px 0 0; font-size: 18px; font-weight: 800; }
@@ -82,3 +83,26 @@ body {
 .tooltip.hidden { display: none; }
 .tooltip b { font-weight: 800; }
 .tooltip .tt-cwi { color: var(--teal-deep); font-weight: 800; }
+
+/* ════ DESIGN DIRECTIONS (?theme=) ════ */
+
+/* B — Government Clean: official, trustworthy, USWDS-aligned */
+body.theme-gov {
+  --bg: #f0f0f0; --panel: #ffffff; --ink: #1b1b1b; --muted: #565c65;
+  --line: #dfe1e2; --teal: #005ea2; --teal-deep: #1a4480; --clay: #b50909;
+}
+body.theme-gov .brand h1 { font-weight: 700; }
+
+/* C — Editorial Dark: striking, presentation-forward */
+body.theme-dark {
+  --bg: #14181d; --panel: #1b2128; --ink: #eef2f4; --muted: #93a1ac;
+  --line: #2a323b; --teal: #5fd0bf; --teal-deep: #5fd0bf; --clay: #c1666b;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 18px 40px -18px rgba(0,0,0,.6);
+}
+body.theme-dark #metric { background: var(--panel); color: var(--ink); }
+body.theme-dark .drow .dbar { background: #2a323b; }
+body.theme-dark .d-foot, body.theme-dark .detail { border-color: var(--line); }
+body.theme-dark .tooltip { background: var(--panel); color: var(--ink); border-color: var(--line); }
+body.theme-dark .maplibregl-ctrl-attrib { background: rgba(27,33,40,.8); }
+body.theme-dark .maplibregl-ctrl-attrib a { color: var(--muted); }
+
