@@ -1,0 +1,10 @@
+# Raw research data — PII (owner names/addresses) + large; NEVER commit
+*.csv
+*.zip
+data/raw/
+CWI/
+# build/deps
+node_modules/
+.next/
+dist/
+.DS_Store
